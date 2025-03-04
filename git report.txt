@@ -1,0 +1,46 @@
+Git rebase :
+Git rebase is a command that moves or reapplies a series of commits onto a different base commit,
+effectively rewriting commit history to create a linear and cleaner project history. It is commonly used
+to update a feature branch with the latest changes from the main branch or to reorganize commits
+before merging.
+Is commonly used in:
+1. Rebase a Feature Branch onto main :
+If you're working on a feature branch and main has new commits, you can update your branch with:
+git checkout feature-branch
+git rebase main
+This will replay your feature branch commits on top of the latest main commits. 
+
+2. Abort a Rebase :
+If something goes wrong during a rebase :
+git rebase --abort
+This resets your branch to its original state before the rebase. 
+
+3. Resolve Conflicts During a Rebase :
+If there are conflicts:
+1. Git will pause and show the conflicting files.
+2. Manually resolve conflicts in the files.
+3. Stage the resolved files:
+git add <resolved-file>
+4. Continue the rebase :
+git rebase --continue
+5. If needed, you can skip a commit:
+git rebase --skip
+
+4. Interactive Rebase (-i) to Clean Up Commits :
+git rebase -i HEAD~3
+This allows you to:
+• Reorder commits
+• Squash commits together
+• Edit commit messages
+• Drop commits
+You'll see a list of commits in your editor, where you can modify actions.
+
+Git Checkout :
+The git checkout command lets you navigate between the branches created by git branch. Checking out
+a branch updates the files in the working directory to match the version stored in that branch, and it
+tells Git to record all new commits on that branch. Think of it as a way to select which line of
+development you’re working on.
+Switching branches:
+Switching branches is a straightforward operation. Executing the following will point HEAD to the tip
+of ＜branchname＞.
+git checkout ＜branchname＞
