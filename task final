@@ -1,0 +1,99 @@
+#!/bin/bash
+
+
+
+select se in list_users list_groups user_modification group_modification Exit
+do
+	case $se in 
+		list_users)
+			cut -f 1 -d ':'  /etc/passwd
+			;;
+		list_groups)
+			cut -f 1 -d ':'  /etc/group
+			;;
+		user_modification)
+			select n in useradd usermod userdel Exit
+			do
+				case $n in
+					useradd)
+						read -p "Enetr name login of new user : " new 
+						sudo useradd $new
+						sudo passwd
+						;;
+					usermod)
+						select i in edit_name password add_to_sec_group Exit
+						do
+							case $i in
+								edit_name)	
+									read -p "Enetr name login of user wanted to edit : " new
+									read -p "Enetr new name : " new1
+									sudo usermod -l $new1 $new
+                                                			;;
+								password)
+									read -p "Enetr name login of user wanted to edit : " new
+									sudo passwd $new
+									;;
+								add_to_sec_group)
+									read -p "Enetr name login of user : " new
+									read -p "Enetr group want to add : " new1
+									sudo usermod	-aG $new1 $new
+									;;
+								Exit)
+                                                			break
+									;;
+						
+							esac
+						done
+							;;
+					userdel)
+						read -p "Enetr name login of user want to delete : " new
+						sudo userdel -r $new			
+						;;
+					Exit)
+                                                break
+						;;
+
+				esac
+			done
+
+			;;
+
+		group_modification)
+			select n in groupadd groupmod groupdel Exit
+                        do
+                                case $n in
+                                        groupadd)
+                                                read -p "Enetr name  of new group : " new
+                                                sudo groupadd $new
+                                                ;;
+                                        groupmod)
+                                                select i in edit_name Exit
+                                                do
+                                                        case $i in
+                                                                edit_name)
+                                                                        read -p "Enetr name of group wanted to edit : " new
+                                                                        read -p "Enetr new name : " new1
+                                                                        sudo groupmod -n $new1 $new
+                                                                        ;;
+								Exit)
+                                               				 break
+									 ;;
+                                                        esac
+                                                done
+                                                        ;;
+                                        groupdel)
+                                                read -p "Enetr name of group want to delete : " new
+                                                sudo groupdel -f $new
+                                                ;;
+					Exit)
+						break
+						;;
+				esac
+                        done
+
+                        ;;
+		Exit)
+			break
+			;;
+	esac
+done
